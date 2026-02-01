@@ -14,3 +14,5 @@ export { MoreScreen } from './MoreScreen';
 // Additional Screens
 export { NotificationScreen } from './NotificationScreen';
 export { UserProfileScreen } from './UserProfileScreen';
+export { DashboardScreen } from './DashboardScreen';
+export { AddModuleScreen } from './AddModuleScreen';

@@ -18,6 +18,9 @@ export interface AuthState {
 export type RootStackParamList = {
   Auth: undefined;
   Main: undefined;
+  Notification: undefined;
+  UserProfile: undefined;
+  AddModule: undefined;
 };
 
 export type AuthStackParamList = {
@@ -26,8 +29,8 @@ export type AuthStackParamList = {
 };
 
 export type MainTabParamList = {
-  Dashboard: undefined;
-  AddModule: undefined;
+  PriceBoard: undefined;
+  AI: undefined;
   GroupHub: undefined;
-  More: undefined;
+  Dashboard: undefined;
 };

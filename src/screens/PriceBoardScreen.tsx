@@ -19,7 +19,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Stock, Neutral, Primary } from '@/constants';
 import Svg, { Path, Circle, Rect } from 'react-native-svg';
 import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { StackNavigationProp } from '@react-navigation/stack';
 
 interface StockData {
   id: string;
@@ -47,7 +47,7 @@ const MOCK_STOCKS: StockData[] = [
 const TABS = ['Danh mục', 'Thị trường', 'Phái sinh', 'Chứng quyền', 'ETF'];
 
 export const PriceBoardScreen: React.FC = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const [activeTab, setActiveTab] = useState(0);
   const [selectedList, setSelectedList] = useState('MyList');
   const [searchQuery, setSearchQuery] = useState('');
@@ -85,12 +85,20 @@ export const PriceBoardScreen: React.FC = () => {
     
     return (
       <View className="flex-row items-center px-4 py-4 border-b border-white/[0.03]">
-        <Text className="flex-1 text-[15px] font-bold" style={{ color: changeColor }}>{item.symbol}</Text>
-        <Text className="flex-1 text-[15px] font-semibold text-right" style={{ color: changeColor }}>{item.price.toFixed(2)}</Text>
-        <Text className="flex-1 text-[14px] font-semibold text-center" style={{ color: changeColor }}>
-          {item.change === 0 ? '-' : item.change > 0 ? `+${item.change.toFixed(2)}` : item.change.toFixed(2)}
-        </Text>
-        <Text className="flex-[1.2] text-[13px] font-medium text-right" style={{ color: Neutral.gray400 }}>{formatVolume(item.totalVolume)}</Text>
+        <View className="flex-1 items-start">
+          <Text className="text-[15px] font-bold" style={{ color: changeColor }}>{item.symbol}</Text>
+        </View>
+        <View className="flex-1 items-end">
+          <Text className="text-[15px] font-semibold" style={{ color: changeColor }}>{item.price.toFixed(2)}</Text>
+        </View>
+        <View className="flex-1 items-center">
+          <Text className="text-[14px] font-semibold" style={{ color: changeColor }}>
+            {item.change === 0 ? '-' : item.change > 0 ? `+${item.change.toFixed(2)}` : item.change.toFixed(2)}
+          </Text>
+        </View>
+        <View className="flex-[1.2] items-end">
+          <Text className="text-[13px] font-medium" style={{ color: Neutral.gray400 }}>{formatVolume(item.totalVolume)}</Text>
+        </View>
         <TouchableOpacity className="w-[30px] items-center justify-center ml-2">
           <Svg width={20} height={20} viewBox="0 0 24 24" fill="none">
             <Path
@@ -357,10 +365,18 @@ export const PriceBoardScreen: React.FC = () => {
 
           {/* Stock Table Header */}
           <View className="flex-row items-center px-4 py-3 bg-white/[0.02] border-b border-white/[0.05]">
-            <Text className="flex-1 text-[13px] font-semibold text-gray-400">Mã CK</Text>
-            <Text className="flex-1 text-[13px] font-semibold text-gray-400 text-right">Khớp</Text>
-            <Text className="flex-1 text-[13px] font-semibold text-gray-400 text-center">+/-</Text>
-            <Text className="flex-[1.2] text-[13px] font-semibold text-gray-400 text-right">Tổng KL</Text>
+            <View className="flex-1 items-start">
+              <Text className="text-[13px] font-semibold text-gray-400">Mã CK</Text>
+            </View>
+            <View className="flex-1 items-end">
+              <Text className="text-[13px] font-semibold text-gray-400">Khớp</Text>
+            </View>
+            <View className="flex-1 items-center">
+              <Text className="text-[13px] font-semibold text-gray-400">+/-</Text>
+            </View>
+            <View className="flex-[1.2] items-end">
+              <Text className="text-[13px] font-semibold text-gray-400">Tổng KL</Text>
+            </View>
             <View className="w-[30px]" />
           </View>
 

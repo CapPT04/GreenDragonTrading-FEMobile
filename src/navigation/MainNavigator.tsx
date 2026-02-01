@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Platform, TouchableOpacity, Dimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { PriceBoardScreen, AIScreen, GroupHubScreen, MoreScreen } from '@/screens';
+import { PriceBoardScreen, AIScreen, GroupHubScreen, DashboardScreen } from '@/screens';
 import { MainTabParamList } from '@/types';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Path, Circle, Rect, G, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
@@ -124,12 +124,12 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
             };
 
             // Special handling for center button (AI), Dashboard, and GroupHub
-            if (route.name === 'AddModule' || route.name === 'Dashboard' || route.name === 'GroupHub') {
-              const isAI = route.name === 'AddModule';
+            if (route.name === 'AI' || route.name === 'Dashboard' || route.name === 'GroupHub') {
+              const isAI = route.name === 'AI';
               const isDashboard = route.name === 'Dashboard';
               const isGroupHub = route.name === 'GroupHub';
               
-              let gradientColors: string[];
+              let gradientColors: [string, string];
               let IconComponent: React.ComponentType<{ focused: boolean; size: number }>;
               let BackgroundComponent: React.ComponentType | null = null;
               let backgroundSize = 44;
@@ -249,7 +249,7 @@ export const MainNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="AddModule"
+        name="AI"
         component={AIScreen}
         options={{
           tabBarLabel: 'AI',
@@ -264,7 +264,7 @@ export const MainNavigator: React.FC = () => {
       />
       <Tab.Screen
         name="Dashboard"
-        component={MoreScreen}
+        component={DashboardScreen}
         options={{
           tabBarLabel: 'Dashboard',
         }}

@@ -15,6 +15,8 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Neutral, Stock, Primary } from '@/constants';
 import Svg, { Path, Circle } from 'react-native-svg';
+import { useNavigation } from '@react-navigation/native';
+import type { StackNavigationProp } from '@react-navigation/stack';
 
 interface Notification {
   id: string;
@@ -69,6 +71,8 @@ const MOCK_NOTIFICATIONS: Notification[] = [
 ];
 
 export const NotificationScreen: React.FC = () => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+  
   const getIconByType = (type: string) => {
     switch (type) {
       case 'price':
@@ -143,6 +147,20 @@ export const NotificationScreen: React.FC = () => {
           {/* Header */}
           <View className="flex-row items-center justify-between px-4 py-3 border-b border-white/[0.05]">
             <View className="flex-row items-center flex-1">
+              <TouchableOpacity 
+                className="w-10 h-10 items-center justify-center -ml-2 mr-1"
+                onPress={() => navigation.goBack()}
+              >
+                <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                  <Path
+                    d="M19 12H5m0 0l7 7m-7-7l7-7"
+                    stroke="#ffffff"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </Svg>
+              </TouchableOpacity>
               <Text className="text-xl font-bold text-white">Thông báo</Text>
               <View className="ml-2 bg-primary-500/20 px-2 py-0.5 rounded-full">
                 <Text className="text-[11px] font-semibold text-primary-400">2 mới</Text>

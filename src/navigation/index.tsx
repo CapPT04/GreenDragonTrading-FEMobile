@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MainNavigator } from './MainNavigator';
-import { LoginScreen, RegisterScreen, NotificationScreen, UserProfileScreen } from '@/screens';
+import { LoginScreen, RegisterScreen, NotificationScreen, UserProfileScreen, AddModuleScreen } from '@/screens';
 import { RootStackParamList, AuthStackParamList } from '@/types';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 
@@ -30,6 +30,7 @@ const RootNavigatorContent: React.FC = () => {
           <RootStack.Screen name="Main" component={MainNavigator} />
           <RootStack.Screen name="Notification" component={NotificationScreen} />
           <RootStack.Screen name="UserProfile" component={UserProfileScreen} />
+          <RootStack.Screen name="AddModule" component={AddModuleScreen} />
         </>
       )}
     </RootStack.Navigator>
