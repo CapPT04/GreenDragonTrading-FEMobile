@@ -12,10 +12,14 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  TextInput,
+  Animated,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Stock, Neutral } from '@/constants';
+import { Stock, Neutral, Primary } from '@/constants';
 import Svg, { Path, Circle, Rect } from 'react-native-svg';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface StockData {
   id: string;
@@ -37,13 +41,17 @@ const MOCK_STOCKS: StockData[] = [
   { id: '8', symbol: 'HPG', price: 25.80, change: 0.15, totalVolume: 8543200, changePercent: 0.58 },
   { id: '9', symbol: 'VCB', price: 89.50, change: -0.50, totalVolume: 5432100, changePercent: -0.56 },
   { id: '10', symbol: 'TCB', price: 45.20, change: 0.80, totalVolume: 9876500, changePercent: 1.80 },
+  
 ];
 
 const TABS = ['Danh mục', 'Thị trường', 'Phái sinh', 'Chứng quyền', 'ETF'];
 
 export const PriceBoardScreen: React.FC = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [activeTab, setActiveTab] = useState(0);
   const [selectedList, setSelectedList] = useState('MyList');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) {
@@ -105,83 +113,119 @@ export const PriceBoardScreen: React.FC = () => {
           colors={['#0d0d0d', '#1a1a1a']}
           className="flex-1"
         >
-          {/* Top Action Bar */}
-          <View className="flex-row justify-between items-center px-4 pt-3 pb-2">
-            <TouchableOpacity className="w-10 h-10 items-center justify-center">
-              <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+          {/* Top Action Bar with Search */}
+          <View className="px-4 pt-3 pb-2">
+            {/* Search Bar */}
+            <View className={`flex-row items-center bg-white/[0.08] rounded-xl px-4 py-2.5 mb-3 ${searchFocused ? 'border-2 border-primary-500' : 'border border-white/[0.1]'}`}>
+              <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" style={{ marginRight: 10 }}>
+                <Circle cx="11" cy="11" r="8" stroke={searchFocused ? Primary[400] : Neutral.gray400} strokeWidth="2" />
                 <Path
-                  d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
-                  fill="#4ade80"
+                  d="M21 21l-4.35-4.35"
+                  stroke={searchFocused ? Primary[400] : Neutral.gray400}
+                  strokeWidth="2"
+                  strokeLinecap="round"
                 />
               </Svg>
-            </TouchableOpacity>
-            
-            <View className="flex-row items-center gap-3">
-              <TouchableOpacity className="w-10 h-10 items-center justify-center">
-                <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-                  <Circle cx="12" cy="12" r="9" stroke={Neutral.gray400} strokeWidth="1.5" />
-                  <Path
-                    d="M12 7v5l3.5 2"
-                    stroke={Neutral.gray400}
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </Svg>
-              </TouchableOpacity>
-              <TouchableOpacity className="w-10 h-10 items-center justify-center">
-                <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-                  <Path
-                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                    stroke={Neutral.gray400}
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <Circle cx="12" cy="9" r="2.5" stroke={Neutral.gray400} strokeWidth="1.5" />
-                </Svg>
-              </TouchableOpacity>
-              <TouchableOpacity className="w-10 h-10 items-center justify-center">
-                <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-                  <Path
-                    d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
-                    stroke={Neutral.gray400}
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <Path
-                    d="M13.73 21a2 2 0 0 1-3.46 0"
-                    stroke={Neutral.gray400}
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </Svg>
-                <View className="absolute top-1 right-2 bg-red-500 rounded-lg min-w-[14px] h-[14px] items-center justify-center px-[3px]">
-                  <Text className="text-white text-[9px] font-bold">2</Text>
-                </View>
-              </TouchableOpacity>
+              <TextInput
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
+                placeholder="Tìm mã chứng khoán..."
+                placeholderTextColor={Neutral.gray500}
+                className="flex-1 text-white text-[15px]"
+                style={{ color: '#ffffff', fontSize: 15 }}
+              />
+              {searchQuery.length > 0 && (
+                <TouchableOpacity onPress={() => setSearchQuery('')} className="ml-2">
+                  <Svg width={18} height={18} viewBox="0 0 24 24" fill="none">
+                    <Path
+                      d="M18 6L6 18M6 6l12 12"
+                      stroke={Neutral.gray400}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </Svg>
+                </TouchableOpacity>
+              )}
+            </View>
+
+            {/* Action Icons Row */}
+            <View className="flex-row justify-between items-center">
               <TouchableOpacity className="w-10 h-10 items-center justify-center">
                 <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
                   <Path
-                    d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                    stroke={Neutral.gray400}
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+                    fill="#4ade80"
                   />
-                  <Circle cx="12" cy="7" r="4" stroke={Neutral.gray400} strokeWidth="1.5" />
                 </Svg>
               </TouchableOpacity>
-              <TouchableOpacity className="w-10 h-10 items-center justify-center">
-                <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-                  <Rect x="3" y="3" width="7" height="7" rx="1" stroke={Neutral.gray400} strokeWidth="1.5" />
-                  <Rect x="14" y="3" width="7" height="7" rx="1" stroke={Neutral.gray400} strokeWidth="1.5" />
-                  <Rect x="3" y="14" width="7" height="7" rx="1" stroke={Neutral.gray400} strokeWidth="1.5" />
-                  <Rect x="14" y="14" width="7" height="7" rx="1" stroke={Neutral.gray400} strokeWidth="1.5" />
-                </Svg>
-              </TouchableOpacity>
+              
+              <View className="flex-row items-center gap-3">
+                <TouchableOpacity className="w-10 h-10 items-center justify-center">
+                  <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                    <Circle cx="12" cy="12" r="9" stroke={Neutral.gray400} strokeWidth="1.5" />
+                    <Path
+                      d="M12 7v5l3.5 2"
+                      stroke={Neutral.gray400}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </Svg>
+                </TouchableOpacity>
+                <TouchableOpacity className="w-10 h-10 items-center justify-center">
+                  <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                    <Path
+                      d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+                      stroke={Neutral.gray400}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <Circle cx="12" cy="9" r="2.5" stroke={Neutral.gray400} strokeWidth="1.5" />
+                  </Svg>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  className="w-10 h-10 items-center justify-center"
+                  onPress={() => navigation.navigate('Notification')}
+                >
+                  <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                    <Path
+                      d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
+                      stroke={Neutral.gray400}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <Path
+                      d="M13.73 21a2 2 0 0 1-3.46 0"
+                      stroke={Neutral.gray400}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </Svg>
+                  <View className="absolute top-1 right-2 bg-red-500 rounded-lg min-w-[14px] h-[14px] items-center justify-center px-[3px]">
+                    <Text className="text-white text-[9px] font-bold">2</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  className="w-10 h-10 items-center justify-center"
+                  onPress={() => navigation.navigate('UserProfile')}
+                >
+                  <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                    <Path
+                      d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                      stroke={Neutral.gray400}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <Circle cx="12" cy="7" r="4" stroke={Neutral.gray400} strokeWidth="1.5" />
+                  </Svg>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
 
@@ -327,6 +371,7 @@ export const PriceBoardScreen: React.FC = () => {
             keyExtractor={item => item.id}
             className="flex-1"
             showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100 }}
           />
         </LinearGradient>
       </SafeAreaView>

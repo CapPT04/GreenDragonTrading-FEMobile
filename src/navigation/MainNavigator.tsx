@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PriceBoardScreen, AIScreen, GroupHubScreen, MoreScreen } from '@/screens';
 import { MainTabParamList } from '@/types';
 import { LinearGradient } from 'expo-linear-gradient';
-import Svg, { Path, Circle, Rect, G } from 'react-native-svg';
+import Svg, { Path, Circle, Rect, G, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
 import { Primary } from '@/constants';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -44,11 +44,41 @@ const GroupHubIcon: React.FC<{ focused: boolean; size: number }> = ({ focused, s
   </Svg>
 );
 
-const MoreIcon: React.FC<{ focused: boolean; size: number }> = ({ focused, size }) => (
+const DashboardIconV2: React.FC<{ focused: boolean; size: number }> = ({ focused, size }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
-      d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-      fill={focused ? Primary[400] : 'rgba(156, 163, 175, 0.6)'}
+      d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"
+      fill="#ffffff"
+    />
+  </Svg>
+);
+
+const HexagonBackground: React.FC = () => (
+  <Svg width="44" height="44" viewBox="0 0 44 44" style={{ position: 'absolute' }}>
+    <Defs>
+      <SvgLinearGradient id="hexGradient" x1="0" y1="0" x2="1" y2="1">
+        <Stop offset="0" stopColor="#a855f7" />
+        <Stop offset="1" stopColor="#ec4899" />
+      </SvgLinearGradient>
+    </Defs>
+    <Path
+      d="M22 2L38.5 12V32L22 42L5.5 32V12L22 2Z"
+      fill="url(#hexGradient)"
+    />
+  </Svg>
+);
+
+const RhombusBackground: React.FC = () => (
+  <Svg width="44" height="44" viewBox="0 0 44 44" style={{ position: 'absolute' }}>
+    <Defs>
+      <SvgLinearGradient id="rhombusGradient" x1="0" y1="0" x2="1" y2="1">
+        <Stop offset="0" stopColor="#06b6d4" />
+        <Stop offset="1" stopColor="#14b8a6" />
+      </SvgLinearGradient>
+    </Defs>
+    <Path
+      d="M22 4L40 22L22 40L4 22Z"
+      fill="url(#rhombusGradient)"
     />
   </Svg>
 );
@@ -93,8 +123,32 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
               });
             };
 
-            // Special handling for center button (AI)
-            if (route.name === 'AddModule') {
+            // Special handling for center button (AI), Dashboard, and GroupHub
+            if (route.name === 'AddModule' || route.name === 'Dashboard' || route.name === 'GroupHub') {
+              const isAI = route.name === 'AddModule';
+              const isDashboard = route.name === 'Dashboard';
+              const isGroupHub = route.name === 'GroupHub';
+              
+              let gradientColors: string[];
+              let IconComponent: React.ComponentType<{ focused: boolean; size: number }>;
+              let BackgroundComponent: React.ComponentType | null = null;
+              let backgroundSize = 44;
+              
+              if (isAI) {
+                gradientColors = ['#ef4444', '#dc2626'];
+                IconComponent = AIIcon;
+              } else if (isDashboard) {
+                gradientColors = ['#a855f7', '#ec4899'];
+                IconComponent = DashboardIconV2;
+                BackgroundComponent = HexagonBackground;
+                backgroundSize = 52;
+              } else {
+                gradientColors = ['#06b6d4', '#14b8a6'];
+                IconComponent = GroupHubIcon;
+                BackgroundComponent = RhombusBackground;
+                backgroundSize = 52;
+              }
+              
               return (
                 <View key={index} style={styles.centerButtonWrapper}>
                   <TouchableOpacity
@@ -108,17 +162,37 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                   >
                     <View style={[styles.centerButtonOuter, isFocused && styles.centerButtonOuterActive]}>
                       {isFocused ? (
-                        <LinearGradient
-                          colors={[Primary[600], '#14b8a6']}
-                          start={{ x: 0, y: 0 }}
-                          end={{ x: 1, y: 0 }}
-                          style={styles.centerButtonGradient}
-                        >
-                          <AIIcon focused={isFocused} size={22} />
-                        </LinearGradient>
+                        BackgroundComponent ? (
+                          <View style={[styles.hexagonContainer, { width: backgroundSize, height: backgroundSize }]}>
+                            <Svg width={backgroundSize} height={backgroundSize} viewBox="0 0 44 44" style={{ position: 'absolute' }}>
+                              <Defs>
+                                <SvgLinearGradient id={isDashboard ? "hexGradient" : "rhombusGradient"} x1="0" y1="0" x2="1" y2="1">
+                                  <Stop offset="0" stopColor={gradientColors[0]} />
+                                  <Stop offset="1" stopColor={gradientColors[1]} />
+                                </SvgLinearGradient>
+                              </Defs>
+                              <Path
+                                d={isDashboard ? "M22 2L38.5 12V32L22 42L5.5 32V12L22 2Z" : "M22 4L40 22L22 40L4 22Z"}
+                                fill={`url(#${isDashboard ? "hexGradient" : "rhombusGradient"})`}
+                              />
+                            </Svg>
+                            <View style={{ zIndex: 1 }}>
+                              <IconComponent focused={isFocused} size={22} />
+                            </View>
+                          </View>
+                        ) : (
+                          <LinearGradient
+                            colors={gradientColors}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                            style={styles.centerButtonGradient}
+                          >
+                            <IconComponent focused={isFocused} size={22} />
+                          </LinearGradient>
+                        )
                       ) : (
                         <View style={styles.centerButtonGradient}>
-                          <AIIcon focused={isFocused} size={22} />
+                          <IconComponent focused={isFocused} size={22} />
                         </View>
                       )}
                     </View>
@@ -138,20 +212,17 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                 onLongPress={onLongPress}
                 style={styles.tabButton}
               >
-                {isFocused && (
-                  <View style={styles.activeIndicator}>
-                    <LinearGradient
-                      colors={[Primary[500], Primary[600]]}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}
-                      style={styles.activeIndicatorGradient}
-                    />
-                  </View>
-                )}
                 <View style={[styles.iconContainer, isFocused && styles.iconContainerActive]}>
-                  {route.name === 'Dashboard' && <DashboardIcon focused={isFocused} size={24} />}
-                  {route.name === 'GroupHub' && <GroupHubIcon focused={isFocused} size={24} />}
-                  {route.name === 'More' && <MoreIcon focused={isFocused} size={24} />}
+                  {route.name === 'PriceBoard' && (
+                    <LinearGradient
+                      colors={isFocused ? [Primary[600], '#14b8a6'] : ['transparent', 'transparent']}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                      style={{ width: 44, height: 44, borderRadius: 12, alignItems: 'center', justifyContent: 'center' }}
+                    >
+                      <DashboardIcon focused={isFocused} size={24} />
+                    </LinearGradient>
+                  )}
                 </View>
               </TouchableOpacity>
             );
@@ -171,7 +242,7 @@ export const MainNavigator: React.FC = () => {
       }}
     >
       <Tab.Screen
-        name="Dashboard"
+        name="PriceBoard"
         component={PriceBoardScreen}
         options={{
           tabBarLabel: 'Bảng giá',
@@ -192,10 +263,10 @@ export const MainNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="More"
+        name="Dashboard"
         component={MoreScreen}
         options={{
-          tabBarLabel: 'More',
+          tabBarLabel: 'Dashboard',
         }}
       />
     </Tab.Navigator>
@@ -260,7 +331,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   iconContainerActive: {
-    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+    backgroundColor: 'rgba(34, 197, 94, 0.15)',
   },
   centerButtonWrapper: {
     flex: 1,
@@ -284,11 +355,6 @@ const styles = StyleSheet.create({
   },
   centerButtonOuterActive: {
     borderColor: 'transparent',
-    shadowColor: Primary[500],
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 6,
   },
   centerButtonGradient: {
     width: 44,
@@ -296,5 +362,12 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  hexagonContainer: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
   },
 });

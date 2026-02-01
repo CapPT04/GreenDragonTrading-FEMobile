@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MainNavigator } from './MainNavigator';
-import { LoginScreen, RegisterScreen } from '@/screens';
+import { LoginScreen, RegisterScreen, NotificationScreen, UserProfileScreen } from '@/screens';
 import { RootStackParamList, AuthStackParamList } from '@/types';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 
@@ -26,7 +26,11 @@ const RootNavigatorContent: React.FC = () => {
       {!isAuthenticated ? (
         <RootStack.Screen name="Auth" component={AuthNavigator} />
       ) : (
-        <RootStack.Screen name="Main" component={MainNavigator} />
+        <>
+          <RootStack.Screen name="Main" component={MainNavigator} />
+          <RootStack.Screen name="Notification" component={NotificationScreen} />
+          <RootStack.Screen name="UserProfile" component={UserProfileScreen} />
+        </>
       )}
     </RootStack.Navigator>
   );

@@ -10,3 +10,7 @@ export { PriceBoardScreen } from './PriceBoardScreen';
 export { AIScreen } from './AIScreen';
 export { GroupHubScreen } from './GroupHubScreen';
 export { MoreScreen } from './MoreScreen';
+
+// Additional Screens
+export { NotificationScreen } from './NotificationScreen';
+export { UserProfileScreen } from './UserProfileScreen';
