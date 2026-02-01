@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Platform, TouchableOpacity, Dimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { DashboardScreen, AddModuleScreen, GroupHubScreen, MoreScreen } from '@/screens';
+import { PriceBoardScreen, AIScreen, GroupHubScreen, MoreScreen } from '@/screens';
 import { MainTabParamList } from '@/types';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Path, Circle, Rect, G } from 'react-native-svg';
@@ -21,14 +21,16 @@ const DashboardIcon: React.FC<{ focused: boolean; size: number }> = ({ focused, 
   </Svg>
 );
 
-const AddModuleIcon: React.FC<{ focused: boolean; size: number }> = ({ focused, size }) => (
-  <Svg width={size + 4} height={size + 4} viewBox="0 0 24 24" fill="none">
-    <Circle cx="12" cy="12" r="10" fill={focused ? Primary[500] : 'rgba(156, 163, 175, 0.6)'} />
+const AIIcon: React.FC<{ focused: boolean; size: number }> = ({ focused, size }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
-      d="M12 8v8M8 12h8"
-      stroke="#ffffff"
-      strokeWidth="2.5"
-      strokeLinecap="round"
+      d="M12 2l2.4 7.4H22l-6.3 4.6 2.4 7.4L12 16.8 5.9 21.4l2.4-7.4L2 9.4h7.6L12 2z"
+      fill="#ffffff"
+    />
+    <Path
+      d="M6 2l1 3H4l2.5 1.8L5.5 10 8 8.2 10.5 10 9.5 6.8 12 5H9l-1-3-1 3H4l2.5 1.8z"
+      fill="#ffffff"
+      opacity="0.6"
     />
   </Svg>
 );
@@ -91,28 +93,37 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
               });
             };
 
-            // Special handling for center button (AddModule)
+            // Special handling for center button (AI)
             if (route.name === 'AddModule') {
               return (
-                <TouchableOpacity
-                  key={index}
-                  accessibilityRole="button"
-                  accessibilityState={isFocused ? { selected: true } : {}}
-                  accessibilityLabel={options.tabBarAccessibilityLabel}
-                  testID={options.tabBarTestID}
-                  onPress={onPress}
-                  onLongPress={onLongPress}
-                  style={styles.centerButtonContainer}
-                >
-                  <View style={styles.centerButtonOuter}>
-                    <LinearGradient
-                      colors={isFocused ? [Primary[600], Primary[500]] : ['rgba(34, 197, 94, 0.3)', 'rgba(16, 185, 129, 0.3)']}
-                      style={styles.centerButtonGradient}
-                    >
-                      <AddModuleIcon focused={isFocused} size={28} />
-                    </LinearGradient>
-                  </View>
-                </TouchableOpacity>
+                <View key={index} style={styles.centerButtonWrapper}>
+                  <TouchableOpacity
+                    accessibilityRole="button"
+                    accessibilityState={isFocused ? { selected: true } : {}}
+                    accessibilityLabel={options.tabBarAccessibilityLabel}
+                    testID={options.tabBarTestID}
+                    onPress={onPress}
+                    onLongPress={onLongPress}
+                    style={styles.centerButtonContainer}
+                  >
+                    <View style={[styles.centerButtonOuter, isFocused && styles.centerButtonOuterActive]}>
+                      {isFocused ? (
+                        <LinearGradient
+                          colors={[Primary[600], '#14b8a6']}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          style={styles.centerButtonGradient}
+                        >
+                          <AIIcon focused={isFocused} size={22} />
+                        </LinearGradient>
+                      ) : (
+                        <View style={styles.centerButtonGradient}>
+                          <AIIcon focused={isFocused} size={22} />
+                        </View>
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                </View>
               );
             }
 
@@ -161,16 +172,16 @@ export const MainNavigator: React.FC = () => {
     >
       <Tab.Screen
         name="Dashboard"
-        component={DashboardScreen}
+        component={PriceBoardScreen}
         options={{
-          tabBarLabel: 'Dashboard',
+          tabBarLabel: 'Bảng giá',
         }}
       />
       <Tab.Screen
         name="AddModule"
-        component={AddModuleScreen}
+        component={AIScreen}
         options={{
-          tabBarLabel: 'Add',
+          tabBarLabel: 'AI',
         }}
       />
       <Tab.Screen
@@ -251,30 +262,38 @@ const styles = StyleSheet.create({
   iconContainerActive: {
     backgroundColor: 'rgba(34, 197, 94, 0.1)',
   },
+  centerButtonWrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   centerButtonContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: -25,
+    marginTop: 0,
   },
   centerButtonOuter: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: 'rgba(13, 13, 13, 0.8)',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: 'rgba(34, 197, 94, 0.2)',
+    borderWidth: 0,
+    borderColor: 'transparent',
+  },
+  centerButtonOuterActive: {
+    borderColor: 'transparent',
     shadowColor: Primary[500],
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
-    elevation: 8,
+    elevation: 6,
   },
   centerButtonGradient: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },

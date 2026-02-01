@@ -1,6 +1,6 @@
 /**
- * DashboardScreen - Trang Dashboard chính
- * Tương ứng với dashboard của dự án Capstone
+ * AIScreen - Màn hình AI Assistant
+ * Hỗ trợ phân tích và tư vấn đầu tư chứng khoán
  */
 
 import React from 'react';
@@ -14,7 +14,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Primary } from '@/constants';
 
-export const DashboardScreen: React.FC = () => {
+export const AIScreen: React.FC = () => {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#0d0d0d" />
@@ -24,7 +24,7 @@ export const DashboardScreen: React.FC = () => {
           style={styles.gradient}
         >
           <View style={styles.content}>
-            <Text style={styles.placeholder}>Dashboard Content</Text>
+            <Text style={styles.placeholder}>AI Assistant</Text>
           </View>
         </LinearGradient>
       </SafeAreaView>
