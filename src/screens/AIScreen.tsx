@@ -7,47 +7,25 @@ import React from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   StatusBar,
   SafeAreaView,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Primary } from '@/constants';
 
 export const AIScreen: React.FC = () => {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#0d0d0d" />
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView className="flex-1 bg-[#0d0d0d]">
         <LinearGradient
           colors={['#0d0d0d', '#1a1a1a']}
-          style={styles.gradient}
+          className="flex-1"
         >
-          <View style={styles.content}>
-            <Text style={styles.placeholder}>AI Assistant</Text>
+          <View className="flex-1 justify-center items-center">
+            <Text className="text-2xl font-semibold text-primary-400">AI Assistant</Text>
           </View>
         </LinearGradient>
       </SafeAreaView>
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0d0d0d',
-  },
-  gradient: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  placeholder: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Primary[400],
-  },
-});

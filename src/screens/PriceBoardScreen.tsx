@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   StatusBar,
   SafeAreaView,
   ScrollView,
@@ -15,7 +14,7 @@ import {
   FlatList,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Primary, Stock, Neutral } from '@/constants';
+import { Stock, Neutral } from '@/constants';
 import Svg, { Path, Circle, Rect } from 'react-native-svg';
 
 interface StockData {
@@ -77,14 +76,14 @@ export const PriceBoardScreen: React.FC = () => {
     const changeColor = getChangeColor(item.change);
     
     return (
-      <View style={styles.stockRow}>
-        <Text style={[styles.stockSymbol, { color: changeColor }]}>{item.symbol}</Text>
-        <Text style={[styles.stockPrice, { color: changeColor }]}>{item.price.toFixed(2)}</Text>
-        <Text style={[styles.stockChange, { color: changeColor }]}>
+      <View className="flex-row items-center px-4 py-4 border-b border-white/[0.03]">
+        <Text className="flex-1 text-[15px] font-bold" style={{ color: changeColor }}>{item.symbol}</Text>
+        <Text className="flex-1 text-[15px] font-semibold text-right" style={{ color: changeColor }}>{item.price.toFixed(2)}</Text>
+        <Text className="flex-1 text-[14px] font-semibold text-center" style={{ color: changeColor }}>
           {item.change === 0 ? '-' : item.change > 0 ? `+${item.change.toFixed(2)}` : item.change.toFixed(2)}
         </Text>
-        <Text style={styles.stockVolume}>{formatVolume(item.totalVolume)}</Text>
-        <TouchableOpacity style={styles.deleteButton}>
+        <Text className="flex-[1.2] text-[13px] font-medium text-right" style={{ color: Neutral.gray400 }}>{formatVolume(item.totalVolume)}</Text>
+        <TouchableOpacity className="w-[30px] items-center justify-center ml-2">
           <Svg width={20} height={20} viewBox="0 0 24 24" fill="none">
             <Path
               d="M6 18L18 6M6 6l12 12"
@@ -101,24 +100,24 @@ export const PriceBoardScreen: React.FC = () => {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#0d0d0d" translucent={false} />
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView className="flex-1 bg-[#0d0d0d]">
         <LinearGradient
           colors={['#0d0d0d', '#1a1a1a']}
-          style={styles.gradient}
+          className="flex-1"
         >
           {/* Top Action Bar */}
-          <View style={styles.topBar}>
-            <TouchableOpacity style={styles.iconButton}>
+          <View className="flex-row justify-between items-center px-4 pt-3 pb-2">
+            <TouchableOpacity className="w-10 h-10 items-center justify-center">
               <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
                 <Path
                   d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
-                  fill={Primary[400]}
+                  fill="#4ade80"
                 />
               </Svg>
             </TouchableOpacity>
             
-            <View style={styles.topBarRight}>
-              <TouchableOpacity style={styles.iconButton}>
+            <View className="flex-row items-center gap-3">
+              <TouchableOpacity className="w-10 h-10 items-center justify-center">
                 <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
                   <Circle cx="12" cy="12" r="9" stroke={Neutral.gray400} strokeWidth="1.5" />
                   <Path
@@ -130,7 +129,7 @@ export const PriceBoardScreen: React.FC = () => {
                   />
                 </Svg>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.iconButton}>
+              <TouchableOpacity className="w-10 h-10 items-center justify-center">
                 <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
                   <Path
                     d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
@@ -142,7 +141,7 @@ export const PriceBoardScreen: React.FC = () => {
                   <Circle cx="12" cy="9" r="2.5" stroke={Neutral.gray400} strokeWidth="1.5" />
                 </Svg>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.iconButton}>
+              <TouchableOpacity className="w-10 h-10 items-center justify-center">
                 <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
                   <Path
                     d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
@@ -159,11 +158,11 @@ export const PriceBoardScreen: React.FC = () => {
                     strokeLinejoin="round"
                   />
                 </Svg>
-                <View style={styles.notificationBadge}>
-                  <Text style={styles.notificationText}>2</Text>
+                <View className="absolute top-1 right-2 bg-red-500 rounded-lg min-w-[14px] h-[14px] items-center justify-center px-[3px]">
+                  <Text className="text-white text-[9px] font-bold">2</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.iconButton}>
+              <TouchableOpacity className="w-10 h-10 items-center justify-center">
                 <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
                   <Path
                     d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
@@ -175,7 +174,7 @@ export const PriceBoardScreen: React.FC = () => {
                   <Circle cx="12" cy="7" r="4" stroke={Neutral.gray400} strokeWidth="1.5" />
                 </Svg>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.iconButton}>
+              <TouchableOpacity className="w-10 h-10 items-center justify-center">
                 <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
                   <Rect x="3" y="3" width="7" height="7" rx="1" stroke={Neutral.gray400} strokeWidth="1.5" />
                   <Rect x="14" y="3" width="7" height="7" rx="1" stroke={Neutral.gray400} strokeWidth="1.5" />
@@ -187,74 +186,74 @@ export const PriceBoardScreen: React.FC = () => {
           </View>
 
           {/* Header with Market Info */}
-          <View style={styles.header}>
+          <View className="pt-2 pb-3">
             <ScrollView 
               horizontal 
-              showsHorizontalScrollIndicator={false} 
-              contentContainerStyle={styles.marketScrollContent}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingHorizontal: 16 }}
             >
-              <View style={styles.marketCard}>
-                <Text style={styles.marketValue}>28.92K Tỷ</Text>
-                <Text style={styles.marketIndex}>VNI</Text>
-                <View style={styles.marketChangeRow}>
-                  <Text style={styles.marketChange}>1,829.04</Text>
-                  <View style={styles.marketPercentContainer}>
+              <View className="bg-white/[0.05] rounded-xl p-3.5 mr-3 min-w-[140px] border border-white/[0.08]">
+                <Text className="text-[11px] text-gray-500 mb-0.5">28.92K Tỷ</Text>
+                <Text className="text-[13px] font-semibold text-gray-400 mb-1.5">VNI</Text>
+                <View className="flex-row items-center justify-between">
+                  <Text className="text-base font-bold text-white">1,829.04</Text>
+                  <View className="flex-row items-center">
                     <Svg width={10} height={10} viewBox="0 0 10 10" style={{ marginRight: 2 }}>
                       <Path d="M5 0L9 8H1L5 0Z" fill={Stock.increase} />
                     </Svg>
-                    <Text style={[styles.marketPercent, { color: Stock.increase }]}>0.77%</Text>
+                    <Text className="text-xs font-semibold" style={{ color: Stock.increase }}>0.77%</Text>
                   </View>
                 </View>
               </View>
-              <View style={styles.marketCard}>
-                <Text style={styles.marketValue}>17.69K Tỷ</Text>
-                <Text style={styles.marketIndex}>VN30</Text>
-                <View style={styles.marketChangeRow}>
-                  <Text style={styles.marketChange}>2,029.81</Text>
-                  <View style={styles.marketPercentContainer}>
+              <View className="bg-white/[0.05] rounded-xl p-3.5 mr-3 min-w-[140px] border border-white/[0.08]">
+                <Text className="text-[11px] text-gray-500 mb-0.5">17.69K Tỷ</Text>
+                <Text className="text-[13px] font-semibold text-gray-400 mb-1.5">VN30</Text>
+                <View className="flex-row items-center justify-between">
+                  <Text className="text-base font-bold text-white">2,029.81</Text>
+                  <View className="flex-row items-center">
                     <Svg width={10} height={10} viewBox="0 0 10 10" style={{ marginRight: 2 }}>
                       <Path d="M5 0L9 8H1L5 0Z" fill={Stock.increase} />
                     </Svg>
-                    <Text style={[styles.marketPercent, { color: Stock.increase }]}>0.54%</Text>
+                    <Text className="text-xs font-semibold" style={{ color: Stock.increase }}>0.54%</Text>
                   </View>
                 </View>
               </View>
-              <View style={styles.marketCard}>
-                <Text style={styles.marketValue}>2.29K Tỷ</Text>
-                <Text style={styles.marketIndex}>HNX</Text>
-                <View style={styles.marketChangeRow}>
-                  <Text style={styles.marketChange}>256.13</Text>
-                  <View style={styles.marketPercentContainer}>
+              <View className="bg-white/[0.05] rounded-xl p-3.5 mr-3 min-w-[140px] border border-white/[0.08]">
+                <Text className="text-[11px] text-gray-500 mb-0.5">2.29K Tỷ</Text>
+                <Text className="text-[13px] font-semibold text-gray-400 mb-1.5">HNX</Text>
+                <View className="flex-row items-center justify-between">
+                  <Text className="text-base font-bold text-white">256.13</Text>
+                  <View className="flex-row items-center">
                     <Svg width={10} height={10} viewBox="0 0 10 10" style={{ marginRight: 2 }}>
                       <Path d="M5 0L9 8H1L5 0Z" fill={Stock.increase} />
                     </Svg>
-                    <Text style={[styles.marketPercent, { color: Stock.increase }]}>1.35%</Text>
+                    <Text className="text-xs font-semibold" style={{ color: Stock.increase }}>1.35%</Text>
                   </View>
                 </View>
               </View>
-              <View style={styles.marketCard}>
-                <Text style={styles.marketValue}>1.45K Tỷ</Text>
-                <Text style={styles.marketIndex}>HNX30</Text>
-                <View style={styles.marketChangeRow}>
-                  <Text style={styles.marketChange}>425.80</Text>
-                  <View style={styles.marketPercentContainer}>
+              <View className="bg-white/[0.05] rounded-xl p-3.5 mr-3 min-w-[140px] border border-white/[0.08]">
+                <Text className="text-[11px] text-gray-500 mb-0.5">1.45K Tỷ</Text>
+                <Text className="text-[13px] font-semibold text-gray-400 mb-1.5">HNX30</Text>
+                <View className="flex-row items-center justify-between">
+                  <Text className="text-base font-bold text-white">425.80</Text>
+                  <View className="flex-row items-center">
                     <Svg width={10} height={10} viewBox="0 0 10 10" style={{ marginRight: 2 }}>
                       <Path d="M5 0L9 8H1L5 0Z" fill={Stock.increase} />
                     </Svg>
-                    <Text style={[styles.marketPercent, { color: Stock.increase }]}>0.92%</Text>
+                    <Text className="text-xs font-semibold" style={{ color: Stock.increase }}>0.92%</Text>
                   </View>
                 </View>
               </View>
-              <View style={styles.marketCard}>
-                <Text style={styles.marketValue}>856.3 Tỷ</Text>
-                <Text style={styles.marketIndex}>UPCOM</Text>
-                <View style={styles.marketChangeRow}>
-                  <Text style={styles.marketChange}>89.45</Text>
-                  <View style={styles.marketPercentContainer}>
+              <View className="bg-white/[0.05] rounded-xl p-3.5 mr-3 min-w-[140px] border border-white/[0.08]">
+                <Text className="text-[11px] text-gray-500 mb-0.5">856.3 Tỷ</Text>
+                <Text className="text-[13px] font-semibold text-gray-400 mb-1.5">UPCOM</Text>
+                <View className="flex-row items-center justify-between">
+                  <Text className="text-base font-bold text-white">89.45</Text>
+                  <View className="flex-row items-center">
                     <Svg width={10} height={10} viewBox="0 0 10 10" style={{ marginRight: 2 }}>
                       <Path d="M5 2L9 10H1L5 2Z" fill={Stock.decrease} transform="rotate(180 5 6)" />
                     </Svg>
-                    <Text style={[styles.marketPercent, { color: Stock.decrease }]}>0.22%</Text>
+                    <Text className="text-xs font-semibold" style={{ color: Stock.decrease }}>0.22%</Text>
                   </View>
                 </View>
               </View>
@@ -262,23 +261,23 @@ export const PriceBoardScreen: React.FC = () => {
           </View>
 
           {/* Tabs */}
-          <View style={styles.tabsContainer}>
+          <View className="pt-4 border-b border-white/[0.05]">
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {TABS.map((tab, index) => (
                 <TouchableOpacity
                   key={index}
-                  style={[styles.tab, activeTab === index && styles.tabActive]}
+                  className="px-5 pb-3 relative"
                   onPress={() => setActiveTab(index)}
                 >
-                  <Text style={[styles.tabText, activeTab === index && styles.tabTextActive]}>
+                  <Text className={`text-[15px] font-medium ${activeTab === index ? 'text-white font-semibold' : 'text-gray-400'}`}>
                     {tab}
                   </Text>
                   {activeTab === index && (
                     <LinearGradient
-                      colors={[Primary[600], '#14b8a6']}
+                      colors={['#16a34a', '#14b8a6']}
                       start={{ x: 0, y: 0 }}
                       end={{ x: 1, y: 0 }}
-                      style={styles.tabIndicator}
+                      className="absolute -bottom-px left-0 right-0 h-[3px] rounded-t"
                     />
                   )}
                 </TouchableOpacity>
@@ -287,9 +286,9 @@ export const PriceBoardScreen: React.FC = () => {
           </View>
 
           {/* List Selector and Add Button */}
-          <View style={styles.controlRow}>
-            <TouchableOpacity style={styles.listSelector}>
-              <Text style={styles.listSelectorText}>{selectedList}</Text>
+          <View className="flex-row items-center justify-between px-4 py-4">
+            <TouchableOpacity className="flex-1 flex-row items-center bg-white/[0.05] rounded-lg px-4 py-3 mr-3 border border-white/[0.08]">
+              <Text className="flex-1 text-[15px] font-medium text-white">{selectedList}</Text>
               <Svg width={20} height={20} viewBox="0 0 24 24" fill="none">
                 <Path
                   d="M6 9l6 6 6-6"
@@ -300,25 +299,25 @@ export const PriceBoardScreen: React.FC = () => {
                 />
               </Svg>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity className="rounded-lg overflow-hidden">
               <LinearGradient
-                colors={[Primary[600], '#14b8a6']}
+                colors={['#16a34a', '#14b8a6']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={styles.addButtonGradient}
+                className="px-6 py-3"
               >
-                <Text style={styles.addButtonText}>Thêm mã</Text>
+                <Text className="text-[15px] font-semibold text-white">Thêm mã</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>
 
           {/* Stock Table Header */}
-          <View style={styles.tableHeader}>
-            <Text style={[styles.headerText, { flex: 1 }]}>Mã CK</Text>
-            <Text style={[styles.headerText, { flex: 1, textAlign: 'right' }]}>Khớp</Text>
-            <Text style={[styles.headerText, { flex: 1, textAlign: 'center' }]}>+/-</Text>
-            <Text style={[styles.headerText, { flex: 1.2, textAlign: 'right' }]}>Tổng KL</Text>
-            <View style={{ width: 30 }} />
+          <View className="flex-row items-center px-4 py-3 bg-white/[0.02] border-b border-white/[0.05]">
+            <Text className="flex-1 text-[13px] font-semibold text-gray-400">Mã CK</Text>
+            <Text className="flex-1 text-[13px] font-semibold text-gray-400 text-right">Khớp</Text>
+            <Text className="flex-1 text-[13px] font-semibold text-gray-400 text-center">+/-</Text>
+            <Text className="flex-[1.2] text-[13px] font-semibold text-gray-400 text-right">Tổng KL</Text>
+            <View className="w-[30px]" />
           </View>
 
           {/* Stock List */}
@@ -326,7 +325,7 @@ export const PriceBoardScreen: React.FC = () => {
             data={MOCK_STOCKS}
             renderItem={renderStockItem}
             keyExtractor={item => item.id}
-            style={styles.stockList}
+            className="flex-1"
             showsVerticalScrollIndicator={false}
           />
         </LinearGradient>
@@ -334,217 +333,3 @@ export const PriceBoardScreen: React.FC = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0d0d0d',
-  },
-  gradient: {
-    flex: 1,
-  },
-  topBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 8,
-  },
-  topBarRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  iconButton: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-  },
-  notificationBadge: {
-    position: 'absolute',
-    top: 4,
-    right: 6,
-    backgroundColor: '#ef4444',
-    borderRadius: 8,
-    minWidth: 16,
-    height: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 3,
-  },
-  notificationText: {
-    color: '#ffffff',
-    fontSize: 10,
-    fontWeight: '700',
-  },
-  header: {
-    paddingTop: 8,
-    paddingBottom: 12,
-  },
-  marketScrollContent: {
-    paddingHorizontal: 16,
-  },
-  marketCard: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: 12,
-    padding: 14,
-    marginRight: 12,
-    minWidth: 140,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.08)',
-  },
-  marketValue: {
-    fontSize: 11,
-    color: Neutral.gray500,
-    marginBottom: 2,
-  },
-  marketIndex: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: Neutral.gray400,
-    marginBottom: 6,
-  },
-  marketChangeRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  marketChange: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#ffffff',
-  },
-  marketPercentContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  marketPercent: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  tabsContainer: {
-    paddingTop: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.05)',
-  },
-  tab: {
-    paddingHorizontal: 20,
-    paddingBottom: 12,
-    position: 'relative',
-  },
-  tabActive: {},
-  tabText: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: Neutral.gray400,
-  },
-  tabTextActive: {
-    color: '#ffffff',
-    fontWeight: '600',
-  },
-  tabIndicator: {
-    position: 'absolute',
-    bottom: -1,
-    left: 0,
-    right: 0,
-    height: 3,
-    borderTopLeftRadius: 2,
-    borderTopRightRadius: 2,
-  },
-  controlRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-  },
-  listSelector: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    flex: 1,
-    marginRight: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.08)',
-  },
-  listSelectorText: {
-    flex: 1,
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#ffffff',
-  },
-  addButton: {
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  addButtonGradient: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-  },
-  addButtonText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#ffffff',
-  },
-  tableHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.02)',
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.05)',
-  },
-  headerText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: Neutral.gray400,
-  },
-  stockList: {
-    flex: 1,
-  },
-  stockRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.03)',
-  },
-  stockSymbol: {
-    flex: 1,
-    fontSize: 15,
-    fontWeight: '700',
-  },
-  stockPrice: {
-    flex: 1,
-    fontSize: 15,
-    fontWeight: '600',
-    textAlign: 'right',
-  },
-  stockChange: {
-    flex: 1,
-    fontSize: 14,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  stockVolume: {
-    flex: 1.2,
-    fontSize: 13,
-    fontWeight: '500',
-    color: Neutral.gray400,
-    textAlign: 'right',
-  },
-  deleteButton: {
-    width: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 8,
-  },
-});
