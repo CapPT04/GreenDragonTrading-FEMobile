@@ -18,6 +18,13 @@ export const Spacing = {
   16: 64,   // 4rem
   20: 80,   // 5rem
   24: 96,   // 6rem
+  
+  // Semantic aliases
+  xs: 8,    // Extra small
+  sm: 12,   // Small
+  md: 16,   // Medium
+  lg: 24,   // Large
+  xl: 32,   // Extra large
 };
 
 // Semantic spacing aliases

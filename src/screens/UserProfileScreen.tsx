@@ -15,24 +15,8 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Neutral, Primary } from '@/constants';
 import Svg, { Path, Circle, Rect } from 'react-native-svg';
-import { useNavigation, CommonActions } from '@react-navigation/native';
-import type { StackNavigationProp } from '@react-navigation/stack';
-import { useAuth } from '@/context/AuthContext';
 
 export const UserProfileScreen: React.FC = () => {
-  const navigation = useNavigation<StackNavigationProp<any>>();
-  const { logout } = useAuth();
-
-  const handleLogout = () => {
-    logout();
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'Auth' }],
-      })
-    );
-  };
-  
   const MenuItem = ({ icon, title, subtitle, onPress }: { 
     icon: React.ReactNode; 
     title: string; 
@@ -73,21 +57,7 @@ export const UserProfileScreen: React.FC = () => {
           className="flex-1"
         >
           {/* Header */}
-          <View className="flex-row items-center px-4 py-3 border-b border-white/[0.05]">
-            <TouchableOpacity 
-              className="w-10 h-10 items-center justify-center -ml-2 mr-1"
-              onPress={() => navigation.goBack()}
-            >
-              <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-                <Path
-                  d="M19 12H5m0 0l7 7m-7-7l7-7"
-                  stroke="#ffffff"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </Svg>
-            </TouchableOpacity>
+          <View className="px-4 py-3 border-b border-white/[0.05]">
             <Text className="text-xl font-bold text-white">Tài khoản</Text>
           </View>
 
@@ -258,10 +228,7 @@ export const UserProfileScreen: React.FC = () => {
 
             {/* Logout Button */}
             <View className="px-4 py-6">
-              <TouchableOpacity 
-                className="bg-red-500/10 rounded-lg py-3 items-center border border-red-500/30"
-                onPress={handleLogout}
-              >
+              <TouchableOpacity className="bg-red-500/10 rounded-lg py-3 items-center border border-red-500/30">
                 <Text className="text-[15px] font-semibold text-red-500">Đăng xuất</Text>
               </TouchableOpacity>
             </View>

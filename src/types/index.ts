@@ -21,6 +21,18 @@ export type RootStackParamList = {
   Notification: undefined;
   UserProfile: undefined;
   AddModule: undefined;
+  News: undefined;
+  NewsDetail: {
+    newsItem: {
+      id: string;
+      time: string;
+      title: string;
+      imageUrl?: string;
+      content?: string;
+      source?: string;
+      category?: string;
+    };
+  };
 };
 
 export type AuthStackParamList = {
@@ -33,4 +45,15 @@ export type MainTabParamList = {
   AI: undefined;
   GroupHub: undefined;
   Dashboard: undefined;
+  NewsDetail: {
+    newsItem: {
+      id: string;
+      time: string;
+      title: string;
+      imageUrl?: string;
+      content?: string;
+      source?: string;
+      category?: string;
+    };
+  };
 };

@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import { useModules } from '@/context';
 import { GlobalStockChartModule } from '@/components/modules/GlobalStockChartModule';
+import { NewsModule } from '@/components/modules/NewsModule';
 
 interface Module {
   id: string;
@@ -29,6 +30,14 @@ interface Module {
 export const DashboardScreen: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const { modules, removeModule } = useModules();
+
+  const handleNavigateToNews = (newsItem: any) => {
+    navigation.navigate('NewsDetail', { newsItem });
+  };
+
+  const handleNewsPress = (newsItem: any) => {
+    navigation.navigate('NewsDetail', { newsItem });
+  };
 
   return (
     <>
@@ -110,6 +119,8 @@ export const DashboardScreen: React.FC = () => {
                     <View className="px-3 pb-3">
                       {module.id === 'global-stock-chart' ? (
                         <GlobalStockChartModule />
+                      ) : module.id === 'news' ? (
+                        <NewsModule onNewsPress={handleNavigateToNews} />
                       ) : (
                         <View className="bg-[#1a1a1a] rounded-lg p-4" style={{ height: 200 }}>
                           <Text className="text-gray-400 text-[13px]">Module {module.name}</Text>

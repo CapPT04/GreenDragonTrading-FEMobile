@@ -16,3 +16,5 @@ export { NotificationScreen } from './NotificationScreen';
 export { UserProfileScreen } from './UserProfileScreen';
 export { DashboardScreen } from './DashboardScreen';
 export { AddModuleScreen } from './AddModuleScreen';
+export { NewsScreen } from './NewsScreen';
+export { NewsDetailScreen } from './NewsDetailScreen';

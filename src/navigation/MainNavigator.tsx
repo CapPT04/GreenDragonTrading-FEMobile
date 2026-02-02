@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, StyleSheet, Platform, TouchableOpacity, Dimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { PriceBoardScreen, AIScreen, GroupHubScreen, DashboardScreen } from '@/screens';
+import { createStackNavigator } from '@react-navigation/stack';
+import { PriceBoardScreen, AIScreen, GroupHubScreen, DashboardScreen, NewsDetailScreen } from '@/screens';
 import { MainTabParamList } from '@/types';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Path, Circle, Rect, G, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
 import { Primary } from '@/constants';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
+const DashboardStack = createStackNavigator();
 
 const { width } = Dimensions.get('window');
 
@@ -233,6 +235,16 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
   );
 };
 
+// Dashboard Stack Navigator to handle NewsDetail
+const DashboardStackNavigator: React.FC = () => {
+  return (
+    <DashboardStack.Navigator screenOptions={{ headerShown: false }}>
+      <DashboardStack.Screen name="DashboardMain" component={DashboardScreen} />
+      <DashboardStack.Screen name="NewsDetail" component={NewsDetailScreen} />
+    </DashboardStack.Navigator>
+  );
+};
+
 export const MainNavigator: React.FC = () => {
   return (
     <Tab.Navigator
@@ -264,7 +276,7 @@ export const MainNavigator: React.FC = () => {
       />
       <Tab.Screen
         name="Dashboard"
-        component={DashboardScreen}
+        component={DashboardStackNavigator}
         options={{
           tabBarLabel: 'Dashboard',
         }}
