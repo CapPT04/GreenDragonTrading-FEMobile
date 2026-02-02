@@ -20,6 +20,7 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 import { useModules } from '@/context';
 import { GlobalStockChartModule } from '@/components/modules/GlobalStockChartModule';
 import { NewsModule } from '@/components/modules/NewsModule';
+import { SessionInfoModule } from '@/components/modules/SessionInfoModule';
 
 interface Module {
   id: string;
@@ -78,7 +79,11 @@ export const DashboardScreen: React.FC = () => {
           </View>
 
           {/* Modules List or Empty State */}
-          <ScrollView className="flex-1 px-4 pt-6">
+          <ScrollView 
+            className="flex-1 px-4 pt-6 pb-20"
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100 }}
+          >
             {modules.length === 0 ? (
               <View className="items-center justify-center py-20">
                 <View className="w-20 h-20 rounded-full bg-white/[0.05] items-center justify-center mb-4">
@@ -121,6 +126,8 @@ export const DashboardScreen: React.FC = () => {
                         <GlobalStockChartModule />
                       ) : module.id === 'news' ? (
                         <NewsModule onNewsPress={handleNavigateToNews} />
+                      ) : module.id === 'session-info' ? (
+                        <SessionInfoModule />
                       ) : (
                         <View className="bg-[#1a1a1a] rounded-lg p-4" style={{ height: 200 }}>
                           <Text className="text-gray-400 text-[13px]">Module {module.name}</Text>
