@@ -78,7 +78,7 @@ export const SessionInfoModule: React.FC<SessionInfoModuleProps> = ({ symbol = '
         {/* Symbol at top left */}
         <View className="absolute left-3 top-3">
           <LinearGradient
-            colors={['#34C85E', '#2ab84d']}
+            colors={['#16a34a', '#14b8a6']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             className="px-3 py-1 rounded-full"
@@ -89,7 +89,7 @@ export const SessionInfoModule: React.FC<SessionInfoModuleProps> = ({ symbol = '
 
         {/* Center Badge */}
         <LinearGradient
-          colors={['#34C85E', '#2ab84d']}
+          colors={['#16a34a', '#14b8a6']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           className="px-6 py-1.5 rounded-full"
@@ -220,7 +220,7 @@ export const SessionInfoModule: React.FC<SessionInfoModuleProps> = ({ symbol = '
           </View>
 
           <LinearGradient
-            colors={['#34C85E', '#2ab84d']}
+            colors={['#16a34a', '#14b8a6']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             className="px-3 py-1 rounded-full"

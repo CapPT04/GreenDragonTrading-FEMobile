@@ -21,6 +21,7 @@ import { useModules } from '@/context';
 import { GlobalStockChartModule } from '@/components/modules/GlobalStockChartModule';
 import { NewsModule } from '@/components/modules/NewsModule';
 import { SessionInfoModule } from '@/components/modules/SessionInfoModule';
+import { OrderMatchingModule } from '@/components/modules/OrderMatchingModule';
 
 interface Module {
   id: string;
@@ -128,6 +129,8 @@ export const DashboardScreen: React.FC = () => {
                         <NewsModule onNewsPress={handleNavigateToNews} />
                       ) : module.id === 'session-info' ? (
                         <SessionInfoModule />
+                      ) : module.id === 'order-matching' ? (
+                        <OrderMatchingModule />
                       ) : (
                         <View className="bg-[#1a1a1a] rounded-lg p-4" style={{ height: 200 }}>
                           <Text className="text-gray-400 text-[13px]">Module {module.name}</Text>

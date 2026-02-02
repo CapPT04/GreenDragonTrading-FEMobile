@@ -349,7 +349,7 @@ export const NewsModule: React.FC<NewsModuleProps> = ({ onNewsPress }) => {
       <View className="items-center pt-3 pb-2 flex-row justify-center px-4">
         <View className="flex-1" />
         <LinearGradient
-          colors={['#34C85E', '#2ab84d']}
+          colors={['#16a34a', '#14b8a6']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           className="px-6 py-1.5 rounded-full"
@@ -536,6 +536,7 @@ export const NewsModule: React.FC<NewsModuleProps> = ({ onNewsPress }) => {
       <ScrollView
         className="flex-1 px-4 py-2"
         showsVerticalScrollIndicator={false}
+        nestedScrollEnabled={true}
       >
         {renderNewsContent()}
       </ScrollView>
