@@ -23,6 +23,7 @@ import { NewsModule } from '@/components/modules/NewsModule';
 import { SessionInfoModule } from '@/components/modules/SessionInfoModule';
 import { OrderMatchingModule } from '@/components/modules/OrderMatchingModule';
 import { FAAdvisorModule } from '@/components/modules/FAAdvisorModule';
+import { TAAdvisorModule } from '@/components/modules/TAAdvisorModule';
 
 interface Module {
   id: string;
@@ -134,6 +135,8 @@ export const DashboardScreen: React.FC = () => {
                         <OrderMatchingModule />
                       ) : module.id === 'fa-advisor' ? (
                         <FAAdvisorModule />
+                      ) : module.id === 'ta-advisor' ? (
+                        <TAAdvisorModule />
                       ) : (
                         <View className="bg-[#1a1a1a] rounded-lg p-4" style={{ height: 200 }}>
                           <Text className="text-gray-400 text-[13px]">Module {module.name}</Text>
